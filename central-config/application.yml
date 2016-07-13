@@ -1,0 +1,8 @@
+# ===================================================================
+# JHipster Sample Spring Cloud Config.
+# ===================================================================
+
+# Property used on app startup to check the config server status
+configserver:
+    name: Extreme Environments Registry server
+    status: Connected to the public Extreme Environment Registry server!
