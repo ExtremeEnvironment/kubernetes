@@ -6,3 +6,12 @@
 configserver:
     name: Extreme Environments Registry server
     status: Connected to the public Extreme Environment Registry server!
+
+
+jhipster:
+    security:
+        authentication:
+            jwt:
+                secret: efa52a0cc0d3f8a34d734a1a3ee31fce655824c4
+                # Token is valid 24 hours
+                tokenValidityInSeconds: 86400

@@ -1,0 +1,77 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: user-service-psql
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: user-service-psql
+    spec:
+      volumes:
+      - name: data
+        emptyDir: {}
+      containers:
+      - name: postgresql
+        image: postgres:9.5.2
+        env:
+        - name: POSTGRES_USER
+          value: UserService
+        - name: POSTGRES_PASSWORD
+          value:
+#        command:
+#        - mysqld
+#        - --lower_case_table_names=1
+#        - --skip-ssl
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/postgresql/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service-psql
+spec:
+  selector:
+    app: user-service-psql
+  ports:
+  - port: 5432
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: user-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+      - name: user-service
+        image: gcr.io/extreme-environments/user-service
+        ports:
+        - containerPort: 9999
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: prod
+        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          value: http://admin:admin@registry.default.svc.cluster.local:8761/eureka/
+        - name: SPRING_CLOUD_CONFIG_URI
+          value: http://admin:admin@registry.default.svc.cluster.local:8761/config
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://user-service-psql.default.svc.cluster.local:5432/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+spec:
+  selector:
+    app: user-service
+  ports:
+  - port: 9999

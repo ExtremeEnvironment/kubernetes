@@ -19,7 +19,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: jhipster-registry
+  name: registry
 spec:
   replicas: 1
   template:
@@ -36,16 +36,17 @@ spec:
         - name: SPRING_PROFILES_ACTIVE
           value: prod
         - name: GIT_URI
-          value: https://github.com/jhipster/jhipster-registry/
+          value: https://github.com/ExtremeEnvironment/kubernetes
         - name: GIT_SEARCH_PATH
           value: central-config
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: jhipster-registry
+  name: registry
 spec:
   selector:
-    app: jhipster-registry
+    app: registry
+  type: LoadBalancer
   ports:
   - port: 8761
