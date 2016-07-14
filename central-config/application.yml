@@ -7,6 +7,22 @@ configserver:
     name: Extreme Environments Registry server
     status: Connected to the public Extreme Environment Registry server!
 
+ribbon:
+    ReadTimeout: 5000
+    MaxAutoRetries: 3
+    eureka:
+        enabled: true
+
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 20000
+server:
+    compression:
+        enabled: false
 
 jhipster:
     security:

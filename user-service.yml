@@ -58,13 +58,13 @@ spec:
         - containerPort: 9999
         env:
         - name: SPRING_PROFILES_ACTIVE
-          value: prod
+          value: dev
         - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
           value: http://admin:admin@registry.default.svc.cluster.local:8761/eureka/
         - name: SPRING_CLOUD_CONFIG_URI
           value: http://admin:admin@registry.default.svc.cluster.local:8761/config
-        - name: SPRING_DATASOURCE_URL
-          value: jdbc:postgresql://user-service-psql.default.svc.cluster.local:5432/
+        # - name: SPRING_DATASOURCE_URL
+        #  value: jdbc:postgresql://user-service-psql.default.svc.cluster.local:5432/
 ---
 apiVersion: v1
 kind: Service
@@ -73,5 +73,6 @@ metadata:
 spec:
   selector:
     app: user-service
+  type: LoadBalancer
   ports:
   - port: 9999

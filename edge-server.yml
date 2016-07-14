@@ -55,7 +55,7 @@ spec:
       - name: edge-server
         image: gcr.io/extreme-environments/edge-server
         ports:
-        - containerPort: 8080
+        - containerPort: 80
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: prod
@@ -75,4 +75,4 @@ spec:
     app: edge-server
   type: LoadBalancer
   ports:
-  - port: 8080
+  - port: 80
